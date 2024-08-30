@@ -74,6 +74,7 @@
     "storybook": "^8.2.9",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.3.0",
+    "wc-storybook-helpers": "^2.0.3",
     "wireit": "^0.14.7"
   },
   "dependencies": {

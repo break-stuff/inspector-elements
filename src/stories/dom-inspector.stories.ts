@@ -1,7 +1,11 @@
-import type {Meta, StoryObj} from '@storybook/web-components';
-import {html} from 'lit';
+import type { Meta, StoryObj } from '@storybook/web-components';
+import { html } from 'lit';
 import '../lib/dom-inspector/dom-inspector.js';
-import type {DomNodeData} from '../lib/dom-inspector/types.js';
+import { getWcStorybookHelpers } from "wc-storybook-helpers";
+import type { DomNodeData } from '../lib/dom-inspector/types.js';
+
+const { events, args, argTypes, template } =
+  getWcStorybookHelpers("my-element");
 
 interface ObjectInspectorProps {
   expandLevel: number;
@@ -16,21 +20,20 @@ export default {
   title: 'Components/ix-dom-inspector',
   component: 'ix-dom-inspector',
   tags: ['autodocs'],
-  render: ({name, data, expandLevel, expandPaths}) =>
+  render: ({ name, data, expandLevel, expandPaths }) =>
     html`<ix-dom-inspector
       .name=${name}
       .data=${data}
       .expandLevel=${expandLevel}
       .expandPaths=${expandPaths}
     ></ix-dom-inspector>`,
-  argTypes: {
-    expandLevel: {control: 'number'},
-    expandPaths: {control: 'object'},
-    name: {control: 'text'},
-    data: {control: 'object'},
-    showNonenumerable: {control: 'boolean'},
+  args,
+  argTypes,
+  parameters: {
+    actions: {
+      handles: events,
+    },
   },
-  args: {},
 } satisfies Meta<ObjectInspectorProps>;
 
 type Story = StoryObj<ObjectInspectorProps>;
@@ -42,7 +45,7 @@ export const MixedNodes: Story = {
       nodeName: 'div',
       nodeType: 1,
       tagName: 'div',
-      attributes: [{name: 'class', value: 'foo'}],
+      attributes: [{ name: 'class', value: 'foo' }],
       childNodes: [
         {
           nodeName: 'span',
@@ -63,3 +66,8 @@ export const MixedNodes: Story = {
     expandPaths: '$.object',
   },
 };
+
+export const TemplateExample: Story = {
+  render: (args) => template(args),
+  args: {}
+}
